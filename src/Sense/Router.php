@@ -62,19 +62,22 @@ class Router {
     }
 
     function generateUrl($name, $params=array()){
-        $path       = $this->routes[$name]["path"];
-        $url_params = array_keys($this->routes[$name]["url_params"]);
+        $path = $this->routes[$name]["path"];
 
-        foreach($url_params as $required){
-            if(!isset($params[$required])){
+        if (is_array($url_params)) {
+            $url_params = array_keys($this->routes[$name]["url_params"]);
 
-                throw new \Exception($required . " param is required for route " . $name);
+            foreach($url_params as $required){
+                if(!isset($params[$required])){
+
+                    throw new \Exception($required . " param is required for route " . $name);
+                }
+
+                //todo: match con el reg-exp
+
+
+                $path = str_replace("{" .$required ."}", $params[$required], $path);
             }
-
-            //todo: match con el reg-exp
-
-
-            $path = str_replace("{" .$required ."}", $params[$required], $path);
         }
 
         if(substr($path, 0, strlen($path)-1)=="?") str_replace("?", "", $path);
@@ -203,4 +206,4 @@ class Router {
 
 
 
-} 
+}
