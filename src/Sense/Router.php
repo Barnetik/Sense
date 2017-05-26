@@ -64,7 +64,7 @@ class Router {
     function generateUrl($name, $params=array()){
         $path = $this->routes[$name]["path"];
 
-        if (is_array($url_params)) {
+        if (is_array($this->routes[$name]["url_params"])) {
             $url_params = array_keys($this->routes[$name]["url_params"]);
 
             foreach($url_params as $required){
